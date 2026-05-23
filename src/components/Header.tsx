@@ -4,7 +4,7 @@ import { ShoppingCart, User, Search, Menu, X, LogOut, LayoutDashboard, Package, 
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,12 +24,8 @@ const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    supabase
-      .from('ecom_collections')
-      .select('id,title,handle')
-      .eq('is_visible', true)
-      .order('title')
-      .then(({ data }) => setCollections(data || []));
+    api.get<{ collections: any[] }>('/collections')
+      .then(({ data }) => setCollections(data?.collections || []));
   }, []);
 
   const onSearch = (e: React.FormEvent) => {

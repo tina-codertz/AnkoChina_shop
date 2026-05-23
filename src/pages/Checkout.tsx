@@ -6,7 +6,7 @@ import { Lock, CreditCard, MapPin } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
@@ -124,17 +124,17 @@ const Checkout: React.FC = () => {
 
   const handleProceedToPayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Calc tax
-    const { data: taxData } = await supabase.functions.invoke('calculate-tax', {
-      body: { state: addr.state, subtotal }
+    const { data: taxData } = await api.post<{ taxCents: number }>('/checkout/calculate-tax', {
+      state: addr.state,
+      subtotal,
     });
     const taxCents = taxData?.taxCents || 0;
     setTax(taxCents);
     const totalCents = subtotal + 0 + taxCents;
 
-    // Create payment intent
-    const { data, error } = await supabase.functions.invoke('create-payment-intent', {
-      body: { amount: totalCents, currency: 'usd' }
+    const { data, error } = await api.post<{ clientSecret: string }>('/checkout/create-payment-intent', {
+      amount: totalCents,
+      currency: 'usd',
     });
     if (error || !data?.clientSecret) {
       setPaymentError('Unable to initialize payment. Please try again.');
@@ -146,31 +146,8 @@ const Checkout: React.FC = () => {
 
   const handlePaymentSuccess = async (paymentIntent: any) => {
     try {
-      const { data: customer } = await supabase
-        .from('ecom_customers')
-        .upsert({ email: addr.email, name: addr.name, phone: addr.phone, address: addr }, { onConflict: 'email' })
-        .select('id')
-        .single();
-
-      const { data: order } = await supabase
-        .from('ecom_orders')
-        .insert({
-          customer_id: customer?.id,
-          user_id: user?.id || null,
-          status: 'paid',
-          subtotal,
-          tax,
-          shipping,
-          total,
-          shipping_address: addr,
-          stripe_payment_intent_id: paymentIntent.id,
-        })
-        .select('id')
-        .single();
-
-      if (order) {
-        const items = cart.map(item => ({
-          order_id: order.id,
+      const { data: order, error } = await api.post<{ id: string }>('/orders', {
+        items: cart.map(item => ({
           product_id: item.product_id,
           variant_id: item.variant_id || null,
           product_name: item.name,
@@ -178,30 +155,15 @@ const Checkout: React.FC = () => {
           sku: item.sku || null,
           quantity: item.quantity,
           unit_price: item.price,
-          total: item.price * item.quantity,
-        }));
-        await supabase.from('ecom_order_items').insert(items);
+        })),
+        shipping_address: addr,
+        customer_email: addr.email,
+        customer_name: addr.name,
+        customer_phone: addr.phone,
+        stripe_payment_intent_id: paymentIntent.id,
+      });
 
-        // Send confirmation email (best-effort)
-        try {
-          const { data: orderItems } = await supabase.from('ecom_order_items').select('*').eq('order_id', order.id);
-          await fetch('https://famous.ai/api/ecommerce/6a102606978e06760a2ea96b/send-confirmation', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              orderId: order.id,
-              customerEmail: addr.email,
-              customerName: addr.name,
-              orderItems,
-              subtotal,
-              shipping,
-              tax,
-              total,
-              shippingAddress: addr,
-            })
-          });
-        } catch {}
-
+      if (order) {
         clearCart();
         navigate(`/order-confirmation/${order.id}`);
       }
@@ -290,7 +252,7 @@ const Checkout: React.FC = () => {
                   <div className="text-gray-500">Loading payment form...</div>
                 )}
                 <button onClick={() => setStep('shipping')} className="mt-4 text-sm text-gray-500 hover:text-[#1a2332]">
-                  ← Back to shipping
+                  &larr; Back to shipping
                 </button>
               </div>
             )}
