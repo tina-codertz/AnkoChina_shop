@@ -18,8 +18,12 @@ app.use('*', logger());
 
 app.use('*', cors({
   origin: (origin, c) => {
-    const allowed = c.env.FRONTEND_URL || 'http://localhost:8080';
-    if (!origin || origin === allowed) return allowed;
+    const allowedOrigins = [
+      c.env.FRONTEND_URL || 'http://localhost:8080',
+      'http://localhost:8080',
+      'http://localhost:5173',
+    ];
+    if (!origin || allowedOrigins.includes(origin)) return origin || allowedOrigins[0];
     return '';
   },
   allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
