@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DollarSign, ShoppingBag, Users, Package, TrendingUp } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice, formatDate } from '@/lib/format';
 
 const StatCard: React.FC<{ icon: any; label: string; value: string; trend?: string; color: string }> = ({ icon: Icon, label, value, trend, color }) => (
@@ -24,30 +24,22 @@ const AdminDashboard: React.FC = () => {
   const [lowStock, setLowStock] = useState<any[]>([]);
 
   useEffect(() => {
-    const load = async () => {
-      const [{ data: orders }, { count: userCount }, { count: productCount }] = await Promise.all([
-        supabase.from('ecom_orders').select('*').order('created_at', { ascending: false }),
-        supabase.from('app_users').select('id', { count: 'exact', head: true }),
-        supabase.from('ecom_products').select('id', { count: 'exact', head: true }),
-      ]);
-      const paidOrders = (orders || []).filter(o => ['paid', 'shipped', 'delivered'].includes(o.status));
-      setStats({
-        revenue: paidOrders.reduce((s, o) => s + o.total, 0),
-        orders: orders?.length || 0,
-        users: userCount || 0,
-        products: productCount || 0,
-      });
-      setRecentOrders((orders || []).slice(0, 5));
-
-      const { data: lowStockData } = await supabase
-        .from('ecom_products')
-        .select('*')
-        .lt('inventory_qty', 50)
-        .order('inventory_qty')
-        .limit(5);
-      setLowStock(lowStockData || []);
-    };
-    load();
+    api.get<{
+      stats: { revenue: number; totalOrders: number; totalUsers: number; totalProducts: number };
+      recentOrders: any[];
+      lowStock: any[];
+    }>('/admin/dashboard').then(({ data }) => {
+      if (data) {
+        setStats({
+          revenue: data.stats.revenue,
+          orders: data.stats.totalOrders,
+          users: data.stats.totalUsers,
+          products: data.stats.totalProducts,
+        });
+        setRecentOrders(data.recentOrders || []);
+        setLowStock(data.lowStock || []);
+      }
+    });
   }, []);
 
   return (
@@ -73,7 +65,7 @@ const AdminDashboard: React.FC = () => {
                 <div key={o.id} className="flex justify-between items-center py-2 border-b last:border-0">
                   <div>
                     <div className="font-medium text-sm">#{o.id.substring(0, 8).toUpperCase()}</div>
-                    <div className="text-xs text-gray-500">{formatDate(o.created_at)} • {o.status}</div>
+                    <div className="text-xs text-gray-500">{formatDate(o.created_at)} &bull; {o.status}</div>
                   </div>
                   <div className="font-semibold">{formatPrice(o.total)}</div>
                 </div>
@@ -91,13 +83,11 @@ const AdminDashboard: React.FC = () => {
               {lowStock.map(p => (
                 <div key={p.id} className="flex justify-between items-center py-2 border-b last:border-0">
                   <div className="flex items-center gap-3">
-                    <img src={p.images?.[0]} alt={p.name} className="w-10 h-10 rounded object-cover" />
                     <div>
                       <div className="font-medium text-sm line-clamp-1">{p.name}</div>
-                      <div className="text-xs text-gray-500">{p.sku}</div>
                     </div>
                   </div>
-                  <div className={`text-sm font-semibold ${p.inventory_qty < 20 ? 'text-red-600' : 'text-yellow-600'}`}>
+                  <div className={`text-sm font-semibold ${p.inventory_qty < 5 ? 'text-red-600' : 'text-yellow-600'}`}>
                     {p.inventory_qty} left
                   </div>
                 </div>
