@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://localhost:8787',
+        target: 'https://anko-shop-api.christinakimario8.workers.dev/api',
         changeOrigin: true,
       },
     },
