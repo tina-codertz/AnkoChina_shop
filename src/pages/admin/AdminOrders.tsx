@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Eye, X } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice, formatDateTime } from '@/lib/format';
 import { toast } from '@/components/ui/use-toast';
 
-const STATUSES = ['pending', 'paid', 'shipped', 'delivered', 'cancelled', 'refunded'];
+const STATUSES = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'];
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -13,23 +13,25 @@ const AdminOrders: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState('all');
 
   const load = async () => {
-    const { data } = await supabase.from('ecom_orders').select('*').order('created_at', { ascending: false });
-    setOrders(data || []);
+    const { data } = await api.get<{ orders: any[] }>('/admin/orders');
+    setOrders(data?.orders || []);
   };
 
   useEffect(() => { load(); }, []);
 
   const handleStatusChange = async (orderId: string, status: string) => {
-    const { error } = await supabase.from('ecom_orders').update({ status }).eq('id', orderId);
+    const { error } = await api.patch(`/admin/orders/${orderId}`, { status });
     if (error) { toast({ title: 'Error', variant: 'destructive' }); return; }
     toast({ title: 'Status updated' });
     load();
   };
 
   const viewOrder = async (order: any) => {
-    setViewing(order);
-    const { data } = await supabase.from('ecom_order_items').select('*').eq('order_id', order.id);
-    setItems(data || []);
+    const { data } = await api.get<any>(`/admin/orders/${order.id}`);
+    if (data) {
+      setViewing(data);
+      setItems(data.items || []);
+    }
   };
 
   const filtered = filterStatus === 'all' ? orders : orders.filter(o => o.status === filterStatus);
@@ -39,7 +41,7 @@ const AdminOrders: React.FC = () => {
       <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Orders</h1>
       <p className="text-gray-500 text-sm mb-6">{orders.length} total orders</p>
 
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-4 flex-wrap">
         <button onClick={() => setFilterStatus('all')} className={`px-3 py-1 rounded-full text-sm ${filterStatus === 'all' ? 'bg-[#1a2332] text-white' : 'bg-white'}`}>All</button>
         {STATUSES.map(s => (
           <button key={s} onClick={() => setFilterStatus(s)} className={`px-3 py-1 rounded-full text-sm capitalize ${filterStatus === s ? 'bg-[#1a2332] text-white' : 'bg-white'}`}>{s}</button>
@@ -51,7 +53,6 @@ const AdminOrders: React.FC = () => {
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Order #</th>
-              <th className="px-4 py-3 font-medium">Customer</th>
               <th className="px-4 py-3 font-medium">Date</th>
               <th className="px-4 py-3 font-medium">Total</th>
               <th className="px-4 py-3 font-medium">Status</th>
@@ -62,7 +63,6 @@ const AdminOrders: React.FC = () => {
             {filtered.map(o => (
               <tr key={o.id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3 font-mono text-xs">#{o.id.substring(0, 8).toUpperCase()}</td>
-                <td className="px-4 py-3">{o.shipping_address?.name || '—'}</td>
                 <td className="px-4 py-3 text-gray-600">{formatDateTime(o.created_at)}</td>
                 <td className="px-4 py-3 font-semibold">{formatPrice(o.total)}</td>
                 <td className="px-4 py-3">
@@ -101,7 +101,7 @@ const AdminOrders: React.FC = () => {
                 <h3 className="font-semibold mb-2">Items</h3>
                 {items.map(i => (
                   <div key={i.id} className="flex justify-between py-2 border-b last:border-0 text-sm">
-                    <div>{i.product_name} × {i.quantity}</div>
+                    <div>{i.product_name} x {i.quantity}</div>
                     <div>{formatPrice(i.total)}</div>
                   </div>
                 ))}

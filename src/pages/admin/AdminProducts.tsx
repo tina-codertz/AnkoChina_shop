@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit, Trash2, X } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
@@ -13,8 +13,8 @@ const AdminProducts: React.FC = () => {
   const [search, setSearch] = useState('');
 
   const load = async () => {
-    const { data } = await supabase.from('ecom_products').select('*').order('created_at', { ascending: false });
-    setProducts(data || []);
+    const { data } = await api.get<{ products: any[] }>('/admin/products');
+    setProducts(data?.products || []);
   };
 
   useEffect(() => { load(); }, []);
@@ -31,15 +31,14 @@ const AdminProducts: React.FC = () => {
       product_type: editing.product_type,
       images: editing.images.filter((i: string) => i),
       tags: editing.tags,
-      has_variants: false,
     };
     if (editing.id) {
-      const { error } = await supabase.from('ecom_products').update(payload).eq('id', editing.id);
-      if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+      const { error } = await api.put(`/admin/products/${editing.id}`, payload);
+      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
       toast({ title: 'Product updated' });
     } else {
-      const { error } = await supabase.from('ecom_products').insert(payload);
-      if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+      const { error } = await api.post('/admin/products', payload);
+      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
       toast({ title: 'Product created' });
     }
     setEditing(null);
@@ -48,8 +47,7 @@ const AdminProducts: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this product?')) return;
-    await supabase.from('ecom_product_collections').delete().eq('product_id', id);
-    await supabase.from('ecom_products').delete().eq('id', id);
+    await api.delete(`/admin/products/${id}`);
     toast({ title: 'Deleted' });
     load();
   };
