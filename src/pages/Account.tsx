@@ -28,29 +28,29 @@ const Account: React.FC = () => {
     setLoading(true);
     const res = await updateProfile({ name, phone });
     setLoading(false);
-    toast({ title: res.success ? 'Profile updated' : 'Error', description: res.error, variant: res.success ? 'default' : 'destructive' });
+    toast({ title: res.success ? 'Imehifadhiwa' : 'Hitilafu', description: res.error, variant: res.success ? 'default' : 'destructive' });
   };
 
   return (
     <Layout>
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>My Account</h1>
+        <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>Akaunti Yangu</h1>
         <div className="bg-white rounded-2xl p-6">
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-sm font-medium mb-1">Barua pepe</label>
               <input type="email" value={user.email} disabled className="w-full px-3 py-2 border rounded-md bg-gray-50" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Full Name</label>
+              <label className="block text-sm font-medium mb-1">Jina Kamili</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-3 py-2 border rounded-md" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Phone</label>
+              <label className="block text-sm font-medium mb-1">Simu</label>
               <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-md" />
             </div>
             <Button type="submit" disabled={loading} className="bg-[#1a2332]">
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? 'Inahifadhi...' : 'Hifadhi'}
             </Button>
           </form>
         </div>

@@ -18,17 +18,17 @@ const Register: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 6) {
-      toast({ title: 'Password too short', description: 'At least 6 characters required.', variant: 'destructive' });
+      toast({ title: 'Nywila fupi sana', description: 'Angalau herufi 6 zinahitajika.', variant: 'destructive' });
       return;
     }
     setLoading(true);
     const res = await register(email, password, name);
     setLoading(false);
     if (res.success) {
-      toast({ title: 'Account created!' });
+      toast({ title: 'Akaunti imetengenezwa!' });
       navigate(redirect);
     } else {
-      toast({ title: 'Registration failed', description: res.error, variant: 'destructive' });
+      toast({ title: 'Imeshindikana kujisajili', description: res.error, variant: 'destructive' });
     }
   };
 
@@ -36,32 +36,32 @@ const Register: React.FC = () => {
     <Layout>
       <div className="max-w-md mx-auto px-4 py-12">
         <div className="bg-white rounded-2xl p-8 shadow-sm">
-          <h1 className="text-3xl font-bold text-center mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Create Account</h1>
-          <p className="text-center text-gray-500 mb-6">Join us today</p>
+          <h1 className="text-3xl font-bold text-center mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Tengeneza Akaunti</h1>
+          <p className="text-center text-gray-500 mb-6">Jiunge nasi leo</p>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Full Name</label>
+              <label className="block text-sm font-medium mb-1">Jina Kamili</label>
               <input type="text" required value={name} onChange={e => setName(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-sm font-medium mb-1">Barua pepe</label>
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
+              <label className="block text-sm font-medium mb-1">Nywila</label>
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)} minLength={6}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <Button type="submit" disabled={loading} className="w-full bg-[#ff6b6b] hover:bg-[#ff5252]">
-              {loading ? 'Creating...' : 'Create Account'}
+              {loading ? 'Inatengeneza...' : 'Tengeneza Akaunti'}
             </Button>
           </form>
 
           <div className="text-center text-sm text-gray-600 mt-6">
-            Already have an account? <Link to="/login" state={{ redirect }} className="text-[#ff6b6b] font-medium">Sign in</Link>
+            Una akaunti tayari? <Link to="/login" state={{ redirect }} className="text-[#ff6b6b] font-medium">Ingia</Link>
           </div>
         </div>
       </div>

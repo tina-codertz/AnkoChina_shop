@@ -25,20 +25,20 @@ const AdminCategories: React.FC = () => {
     };
     if (editing.id) {
       const { error } = await api.put(`/admin/collections/${editing.id}`, payload);
-      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
+      if (error) { toast({ title: 'Hitilafu', description: error, variant: 'destructive' }); return; }
     } else {
       const { error } = await api.post('/admin/collections', payload);
-      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
+      if (error) { toast({ title: 'Hitilafu', description: error, variant: 'destructive' }); return; }
     }
-    toast({ title: 'Saved' });
+    toast({ title: 'Imehifadhiwa' });
     setEditing(null);
     load();
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this category?')) return;
+    if (!confirm('Futa kundi hili?')) return;
     await api.delete(`/admin/collections/${id}`);
-    toast({ title: 'Deleted' });
+    toast({ title: 'Imefutwa' });
     load();
   };
 
@@ -46,17 +46,17 @@ const AdminCategories: React.FC = () => {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Categories</h1>
-          <p className="text-gray-500 text-sm mt-1">{collections.length} categories</p>
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Makundi</h1>
+          <p className="text-gray-500 text-sm mt-1">Makundi {collections.length}</p>
         </div>
-        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b] self-start"><Plus className="w-4 h-4 mr-2" /> Add Category</Button>
+        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b] self-start"><Plus className="w-4 h-4 mr-2" /> Ongeza Kundi</Button>
       </div>
 
       <div className="bg-white rounded-xl overflow-x-auto">
         <table className="w-full text-sm min-w-[400px]">
           <thead className="bg-gray-50 text-left">
             <tr>
-              <th className="px-4 py-3 font-medium">Title</th>
+              <th className="px-4 py-3 font-medium">Jina</th>
               <th className="px-4 py-3 font-medium">Handle</th>
               <th className="px-4 py-3"></th>
             </tr>
@@ -80,12 +80,12 @@ const AdminCategories: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full">
             <div className="p-6 border-b flex justify-between items-center">
-              <h2 className="text-xl font-bold">{editing.id ? 'Edit' : 'New'} Category</h2>
+              <h2 className="text-xl font-bold">{editing.id ? 'Hariri' : 'Kundi Jipya'}</h2>
               <button onClick={() => setEditing(null)}><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="text-sm font-medium block mb-1">Title</label>
+                <label className="text-sm font-medium block mb-1">Jina</label>
                 <input type="text" value={editing.title} onChange={e => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2 border rounded-md" />
               </div>
               <div>
@@ -93,12 +93,12 @@ const AdminCategories: React.FC = () => {
                 <input type="text" value={editing.handle} onChange={e => setEditing({ ...editing, handle: e.target.value })} className="w-full px-3 py-2 border rounded-md" />
               </div>
               <div>
-                <label className="text-sm font-medium block mb-1">Description</label>
+                <label className="text-sm font-medium block mb-1">Maelezo</label>
                 <textarea value={editing.description || ''} onChange={e => setEditing({ ...editing, description: e.target.value })} className="w-full px-3 py-2 border rounded-md" />
               </div>
               <div className="flex gap-2 justify-end">
-                <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
-                <Button onClick={handleSave} className="bg-[#ff6b6b]">Save</Button>
+                <Button variant="outline" onClick={() => setEditing(null)}>Ghairi</Button>
+                <Button onClick={handleSave} className="bg-[#ff6b6b]">Hifadhi</Button>
               </div>
             </div>
           </div>

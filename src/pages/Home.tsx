@@ -31,25 +31,25 @@ const Home: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="max-w-xl text-white">
             <div className="inline-flex items-center gap-2 bg-[#ff6b6b]/20 backdrop-blur px-3 py-1 rounded-full text-xs font-medium mb-6">
-              <Sparkles className="w-3 h-3" /> New Collection 2026
+              <Sparkles className="w-3 h-3" /> Bidhaa Mpya 2026
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Elevate Your<br /><span className="text-[#ff6b6b]">Everyday</span>
+              Bidhaa Bora<br /><span className="text-[#ff6b6b]">Bei Nafuu</span>
             </h1>
             <p className="text-lg text-gray-200 mb-8 max-w-md">
-              Discover premium products crafted for the modern lifestyle. Quality, style, and innovation in every piece.
+              Pata bidhaa bora kutoka China kwa bei nzuri. Ubora, mtindo, na ubunifu katika kila bidhaa.
             </p>
             <div className="flex gap-4">
               <Link to="/products">
                 <Button size="lg" className="bg-[#ff6b6b] hover:bg-[#ff5252] text-white px-8">
-                  Shop Now <ArrowRight className="w-4 h-4 ml-2" />
+                  Nunua Sasa <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
-              <Link to="/collections/sale">
-                <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur text-white border-white/30 hover:bg-white hover:text-[#1a2332]">
-                  View Sale
+              <a href="https://wa.me/255672679480" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur text-white border-white/30 hover:bg-green-600 hover:border-green-600">
+                  WhatsApp
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -58,8 +58,8 @@ const Home: React.FC = () => {
       {/* Categories */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>Shop by Category</h2>
-          <p className="text-gray-600 mt-2">Find exactly what you're looking for</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>Aina za Bidhaa</h2>
+          <p className="text-gray-600 mt-2">Pata unachokitafuta</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {collections.map(c => (
@@ -84,12 +84,12 @@ const Home: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 text-[#ff6b6b] mb-2">
                 <TrendingUp className="w-4 h-4" />
-                <span className="text-sm font-semibold uppercase tracking-wider">Trending</span>
+                <span className="text-sm font-semibold uppercase tracking-wider">Maarufu</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>Featured Products</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>Bidhaa Maarufu</h2>
             </div>
             <Link to="/products" className="hidden md:flex items-center gap-1 text-sm font-medium text-[#1a2332] hover:text-[#ff6b6b]">
-              View All <ArrowRight className="w-4 h-4" />
+              Tazama Zote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -98,17 +98,25 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Banner */}
+      {/* WhatsApp Banner */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-[#1a2332] to-[#2a3548] rounded-3xl p-12 text-center text-white">
           <Award className="w-12 h-12 text-[#ff6b6b] mx-auto mb-4" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>Premium Quality Guaranteed</h2>
-          <p className="text-gray-300 max-w-xl mx-auto mb-6">
-            Every product is carefully curated and tested to meet our quality standards.
+          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>Ubora wa Hali ya Juu</h2>
+          <p className="text-gray-300 max-w-xl mx-auto mb-3">
+            Kila bidhaa imechaguliwa kwa makini na kupimwa ili kutimiza viwango vyetu vya ubora.
           </p>
-          <Link to="/products">
-            <Button size="lg" className="bg-[#ff6b6b] hover:bg-[#ff5252]">Explore Collection</Button>
-          </Link>
+          <p className="text-gray-300 max-w-xl mx-auto mb-6">
+            Wasiliana nasi kupitia WhatsApp kwa maagizo na maswali yoyote.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="https://wa.me/255672679480" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="bg-green-600 hover:bg-green-700">WhatsApp: 0672 679 480</Button>
+            </a>
+            <Link to="/products">
+              <Button size="lg" className="bg-[#ff6b6b] hover:bg-[#ff5252]">Tazama Bidhaa</Button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -119,9 +127,9 @@ const Home: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 text-[#ff6b6b] mb-2">
                 <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-semibold uppercase tracking-wider">Just In</span>
+                <span className="text-sm font-semibold uppercase tracking-wider">Mpya</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>New Arrivals</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>Zilizofika Hivi Karibuni</h2>
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

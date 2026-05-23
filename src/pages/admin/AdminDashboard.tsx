@@ -45,20 +45,20 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <h1 className="text-2xl sm:text-3xl font-bold text-[#1a2332] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Dashboard</h1>
-      <p className="text-gray-500 mb-6 sm:mb-8">Welcome back. Here's what's happening with your store.</p>
+      <p className="text-gray-500 mb-6 sm:mb-8">Karibu tena. Hivi ndivyo duka linavyoendelea.</p>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-        <StatCard icon={DollarSign} label="Total Revenue" value={formatPrice(stats.revenue)} color="bg-green-500" />
-        <StatCard icon={ShoppingBag} label="Total Orders" value={String(stats.orders)} color="bg-blue-500" />
-        <StatCard icon={Users} label="Customers" value={String(stats.users)} color="bg-purple-500" />
-        <StatCard icon={Package} label="Products" value={String(stats.products)} color="bg-[#ff6b6b]" />
+        <StatCard icon={DollarSign} label="Mapato Yote" value={formatPrice(stats.revenue)} color="bg-green-500" />
+        <StatCard icon={ShoppingBag} label="Oda Zote" value={String(stats.orders)} color="bg-blue-500" />
+        <StatCard icon={Users} label="Wateja" value={String(stats.users)} color="bg-purple-500" />
+        <StatCard icon={Package} label="Bidhaa" value={String(stats.products)} color="bg-[#ff6b6b]" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <div className="bg-white rounded-xl p-6">
-          <h2 className="font-semibold mb-4">Recent Orders</h2>
+          <h2 className="font-semibold mb-4">Oda za Karibuni</h2>
           {recentOrders.length === 0 ? (
-            <div className="text-sm text-gray-500 text-center py-8">No orders yet</div>
+            <div className="text-sm text-gray-500 text-center py-8">Bado hakuna oda</div>
           ) : (
             <div className="space-y-3">
               {recentOrders.map(o => (
@@ -75,9 +75,9 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6">
-          <h2 className="font-semibold mb-4">Low Stock Alert</h2>
+          <h2 className="font-semibold mb-4">Bidhaa Zinazoisha</h2>
           {lowStock.length === 0 ? (
-            <div className="text-sm text-gray-500 text-center py-8">All products well stocked</div>
+            <div className="text-sm text-gray-500 text-center py-8">Bidhaa zote zina stoki ya kutosha</div>
           ) : (
             <div className="space-y-3">
               {lowStock.map(p => (
@@ -88,7 +88,7 @@ const AdminDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className={`text-sm font-semibold ${p.inventory_qty < 5 ? 'text-red-600' : 'text-yellow-600'}`}>
-                    {p.inventory_qty} left
+                    {p.inventory_qty} zimebaki
                   </div>
                 </div>
               ))}

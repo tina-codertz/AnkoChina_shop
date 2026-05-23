@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Youtube, Mail } from 'lucide-react';
+import { Instagram, Mail, Phone, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { api } from '@/lib/api';
@@ -15,9 +15,9 @@ const Footer: React.FC = () => {
     setSubmitting(true);
     const { error } = await api.post('/newsletter/subscribe', { email });
     if (error) {
-      toast({ title: 'Error', description: 'Please try again.', variant: 'destructive' });
+      toast({ title: 'Hitilafu', description: 'Jaribu tena.', variant: 'destructive' });
     } else {
-      toast({ title: 'Subscribed!', description: 'Thanks for joining our newsletter.' });
+      toast({ title: 'Umejisajili!', description: 'Asante kwa kujiunga nasi.' });
       setEmail('');
     }
     setSubmitting(false);
@@ -35,14 +35,24 @@ const Footer: React.FC = () => {
               <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina</span>
             </div>
             <p className="text-sm text-gray-400 mb-4 max-w-sm">
-              Discover premium products curated for the modern lifestyle. Quality you can trust.
+              Bidhaa bora kutoka China kwa bei nafuu. Ubora unaoweza kuuamini.
             </p>
+
+            <div className="space-y-2 mb-6 text-sm text-gray-400">
+              <a href="https://wa.me/255672679480" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white">
+                <MessageCircle className="w-4 h-4 text-green-500" /> WhatsApp: 0672 679 480
+              </a>
+              <a href="tel:+255671584909" className="flex items-center gap-2 hover:text-white">
+                <Phone className="w-4 h-4 text-[#ff6b6b]" /> Simu: 0671 584 909
+              </a>
+            </div>
+
             <form onSubmit={handleSubscribe} className="flex gap-2 max-w-sm">
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="Your email"
+                placeholder="Barua pepe yako"
                 required
                 className="flex-1 px-3 py-2 text-sm rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b6b]"
               />
@@ -51,26 +61,46 @@ const Footer: React.FC = () => {
               </Button>
             </form>
             <div className="flex gap-3 mt-6">
-              <a href="#" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition"><Facebook className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition"><Twitter className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition"><Instagram className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition"><Youtube className="w-4 h-4" /></a>
+              <a href="https://www.tiktok.com/@anko_china" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition text-sm font-bold">
+                T
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#ff6b6b] transition"><Instagram className="w-4 h-4" /></a>
+              <a href="https://wa.me/255672679480" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-600 transition"><MessageCircle className="w-4 h-4" /></a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Shop</h4>
+            <h4 className="font-semibold mb-4">Duka</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/products" className="hover:text-white">All Products</Link></li>
-              <li><Link to="/collections/electronics" className="hover:text-white">Electronics</Link></li>
-              <li><Link to="/collections/fashion" className="hover:text-white">Fashion</Link></li>
-              <li><Link to="/collections/sale" className="hover:text-white">Sale</Link></li>
+              <li><Link to="/products" className="hover:text-white">Bidhaa Zote</Link></li>
+              <li><Link to="/collections/electronics" className="hover:text-white">Elektroniki</Link></li>
+              <li><Link to="/collections/fashion" className="hover:text-white">Mitindo</Link></li>
+              <li><Link to="/collections/sale" className="hover:text-white">Punguzo</Link></li>
+            </ul>
+
+            <h4 className="font-semibold mb-3 mt-6">Wasiliana Nasi</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>
+                <a href="https://wa.me/255672679480" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  WhatsApp: 0672 679 480
+                </a>
+              </li>
+              <li>
+                <a href="tel:+255671584909" className="hover:text-white">
+                  Simu: 0671 584 909
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@anko_china" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  TikTok: @anko_china
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-6 border-t border-gray-700 text-center text-xs text-gray-500">
-          &copy; {new Date().getFullYear()} AnkoChina. All rights reserved.
+          &copy; {new Date().getFullYear()} AnkoChina. Haki zote zimehifadhiwa.
         </div>
       </div>
     </footer>

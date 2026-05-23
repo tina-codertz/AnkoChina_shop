@@ -35,7 +35,6 @@ const Header: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-8">
@@ -46,7 +45,7 @@ const Header: React.FC = () => {
               <span className="text-xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina</span>
             </Link>
             <nav className="hidden lg:flex items-center gap-6">
-              <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-[#ff6b6b] transition-colors">All</Link>
+              <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-[#ff6b6b] transition-colors">Bidhaa Zote</Link>
               {collections.slice(0, 6).map(c => (
                 <Link key={c.id} to={`/collections/${c.handle}`} className="text-sm font-medium text-gray-700 hover:text-[#ff6b6b] transition-colors">
                   {c.title}
@@ -60,7 +59,7 @@ const Header: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
+              placeholder="Tafuta bidhaa..."
               className="w-full pl-10 pr-4 py-2 text-sm rounded-full bg-gray-100 border-0 focus:outline-none focus:ring-2 focus:ring-[#ff6b6b]"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -82,29 +81,29 @@ const Header: React.FC = () => {
                   <DropdownMenuSeparator />
                   {user.role === 'admin' && (
                     <DropdownMenuItem onClick={() => navigate('/admin')}>
-                      <LayoutDashboard className="w-4 h-4 mr-2" /> Admin Dashboard
+                      <LayoutDashboard className="w-4 h-4 mr-2" /> Admin
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem onClick={() => navigate('/account')}>
-                    <User className="w-4 h-4 mr-2" /> My Account
+                    <User className="w-4 h-4 mr-2" /> Akaunti Yangu
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/orders')}>
-                    <Package className="w-4 h-4 mr-2" /> My Orders
+                    <Package className="w-4 h-4 mr-2" /> Oda Zangu
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/wishlist')}>
-                    <Heart className="w-4 h-4 mr-2" /> My Wishlist
+                    <Heart className="w-4 h-4 mr-2" /> Vipendwa
                     {wishlistCount > 0 && <span className="ml-auto text-xs bg-[#ff6b6b] text-white rounded-full px-2">{wishlistCount}</span>}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => { logout(); navigate('/'); }}>
-                    <LogOut className="w-4 h-4 mr-2" /> Logout
+                    <LogOut className="w-4 h-4 mr-2" /> Toka
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
                 <User className="w-5 h-5 md:mr-2" />
-                <span className="hidden md:inline">Sign In</span>
+                <span className="hidden md:inline">Ingia</span>
               </Button>
             )}
             {user && (
@@ -142,12 +141,12 @@ const Header: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search..."
+                placeholder="Tafuta..."
                 className="w-full pl-10 pr-4 py-2 text-sm rounded-full bg-gray-100 border-0"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             </form>
-            <Link to="/products" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded">All Products</Link>
+            <Link to="/products" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded">Bidhaa Zote</Link>
             {collections.map(c => (
               <Link key={c.id} to={`/collections/${c.handle}`} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded">
                 {c.title}
@@ -155,7 +154,7 @@ const Header: React.FC = () => {
             ))}
             {user && (
               <Link to="/wishlist" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded">
-                My Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+                Vipendwa {wishlistCount > 0 && `(${wishlistCount})`}
               </Link>
             )}
           </div>

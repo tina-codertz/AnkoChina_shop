@@ -20,10 +20,10 @@ const Login: React.FC = () => {
     const res = await login(email, password);
     setLoading(false);
     if (res.success) {
-      toast({ title: 'Welcome back!' });
+      toast({ title: 'Karibu tena!' });
       navigate(redirect);
     } else {
-      toast({ title: 'Login failed', description: res.error, variant: 'destructive' });
+      toast({ title: 'Imeshindikana kuingia', description: res.error, variant: 'destructive' });
     }
   };
 
@@ -31,27 +31,27 @@ const Login: React.FC = () => {
     <Layout>
       <div className="max-w-md mx-auto px-4 py-12">
         <div className="bg-white rounded-2xl p-8 shadow-sm">
-          <h1 className="text-3xl font-bold text-center mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Welcome Back</h1>
-          <p className="text-center text-gray-500 mb-6">Sign in to your account</p>
+          <h1 className="text-3xl font-bold text-center mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Karibu Tena</h1>
+          <p className="text-center text-gray-500 mb-6">Ingia kwenye akaunti yako</p>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-sm font-medium mb-1">Barua pepe</label>
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
+              <label className="block text-sm font-medium mb-1">Nywila</label>
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <Button type="submit" disabled={loading} className="w-full bg-[#ff6b6b] hover:bg-[#ff5252]">
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Inaingia...' : 'Ingia'}
             </Button>
           </form>
 
           <div className="text-center text-sm text-gray-600 mt-6">
-            Don't have an account? <Link to="/register" state={{ redirect }} className="text-[#ff6b6b] font-medium">Sign up</Link>
+            Huna akaunti? <Link to="/register" state={{ redirect }} className="text-[#ff6b6b] font-medium">Jisajili</Link>
           </div>
         </div>
       </div>

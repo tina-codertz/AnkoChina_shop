@@ -75,40 +75,39 @@ const Products: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>
-            {collectionTitle || (queryParam ? `Search: "${queryParam}"` : 'All Products')}
+            {collectionTitle || (queryParam ? `Tafuta: "${queryParam}"` : 'Bidhaa Zote')}
           </h1>
-          <p className="text-gray-600 mt-1">{filtered.length} products</p>
+          <p className="text-gray-600 mt-1">Bidhaa {filtered.length}</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters */}
           <aside className="lg:w-64 flex-shrink-0">
             <div className="bg-white rounded-xl p-6 sticky top-24">
               <div className="flex items-center gap-2 mb-4">
                 <SlidersHorizontal className="w-4 h-4" />
-                <h3 className="font-semibold">Filters</h3>
+                <h3 className="font-semibold">Chuja</h3>
               </div>
 
               <div className="mb-6">
-                <label className="text-sm font-medium block mb-2">Search</label>
+                <label className="text-sm font-medium block mb-2">Tafuta</label>
                 <input
                   type="text"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  placeholder="Search..."
+                  placeholder="Tafuta..."
                   className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:border-[#ff6b6b]"
                 />
               </div>
 
               {!handle && productTypes.length > 0 && (
                 <div className="mb-6">
-                  <label className="text-sm font-medium block mb-2">Category</label>
+                  <label className="text-sm font-medium block mb-2">Aina</label>
                   <div className="space-y-1">
                     <button
                       onClick={() => setSelectedType('all')}
                       className={`w-full text-left text-sm px-2 py-1 rounded ${selectedType === 'all' ? 'bg-[#1a2332] text-white' : 'hover:bg-gray-100'}`}
                     >
-                      All
+                      Zote
                     </button>
                     {productTypes.map(t => (
                       <button
@@ -124,7 +123,7 @@ const Products: React.FC = () => {
               )}
 
               <div className="mb-6">
-                <label className="text-sm font-medium block mb-2">Max Price: ${(priceRange[1] / 100).toFixed(0)}</label>
+                <label className="text-sm font-medium block mb-2">Bei ya Juu: TSh {(priceRange[1] / 100).toLocaleString()}</label>
                 <input
                   type="range"
                   min={0}
@@ -137,17 +136,17 @@ const Products: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium block mb-2">Sort by</label>
+                <label className="text-sm font-medium block mb-2">Panga kwa</label>
                 <select
                   value={sort}
                   onChange={e => setSort(e.target.value)}
                   className="w-full px-3 py-2 text-sm border rounded-md"
                 >
-                  <option value="featured">Featured</option>
-                  <option value="newest">Newest</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="name">Name A-Z</option>
+                  <option value="featured">Maarufu</option>
+                  <option value="newest">Mpya</option>
+                  <option value="price-asc">Bei: Chini kwenda Juu</option>
+                  <option value="price-desc">Bei: Juu kwenda Chini</option>
+                  <option value="name">Jina A-Z</option>
                 </select>
               </div>
 
@@ -157,12 +156,11 @@ const Products: React.FC = () => {
                 onClick={() => { setSearch(''); setSelectedType('all'); setSort('featured'); setPriceRange([0, 200000]); }}
                 className="w-full mt-4"
               >
-                Clear Filters
+                Futa Vyote
               </Button>
             </div>
           </aside>
 
-          {/* Products */}
           <div className="flex-1">
             {loading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -172,7 +170,7 @@ const Products: React.FC = () => {
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-xl">
-                <p className="text-gray-500">No products found.</p>
+                <p className="text-gray-500">Hakuna bidhaa zilizopatikana.</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

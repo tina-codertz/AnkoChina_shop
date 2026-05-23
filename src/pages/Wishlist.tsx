@@ -71,15 +71,15 @@ const Wishlist: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>
-              My Wishlist
+              Vipendwa Vyangu
             </h1>
             <p className="text-gray-600 mt-1">
-              {products.length} {products.length === 1 ? 'item' : 'items'} saved
+              Bidhaa {products.length} zimehifadhiwa
             </p>
           </div>
           {products.length > 0 && (
             <Button onClick={handleAddAll} className="bg-[#ff6b6b] hover:bg-[#ff5252]">
-              <ShoppingCart className="w-4 h-4 mr-2" /> Add All to Cart
+              <ShoppingCart className="w-4 h-4 mr-2" /> Ongeza Zote Kwenye Kikapu
             </Button>
           )}
         </div>
@@ -95,10 +95,10 @@ const Wishlist: React.FC = () => {
             <div className="w-16 h-16 rounded-full bg-[#ff6b6b]/10 flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-[#ff6b6b]" />
             </div>
-            <h2 className="text-xl font-semibold mb-2">Your wishlist is empty</h2>
-            <p className="text-gray-500 mb-6">Save your favorite products to revisit them later.</p>
+            <h2 className="text-xl font-semibold mb-2">Orodha yako ni tupu</h2>
+            <p className="text-gray-500 mb-6">Hifadhi bidhaa unazozipenda ili uzitazame baadaye.</p>
             <Link to="/products">
-              <Button className="bg-[#1a2332]">Browse Products</Button>
+              <Button className="bg-[#1a2332]">Tazama Bidhaa</Button>
             </Link>
           </div>
         ) : (
@@ -115,7 +115,7 @@ const Wishlist: React.FC = () => {
                     />
                     {!inStock && (
                       <div className="absolute top-3 left-3 bg-gray-700 text-white text-xs px-2 py-1 rounded-full font-semibold">
-                        OUT OF STOCK
+                        IMEISHA
                       </div>
                     )}
                   </Link>
@@ -132,12 +132,12 @@ const Wishlist: React.FC = () => {
                         className="flex-1 bg-[#1a2332] hover:bg-[#2a3548]"
                         size="sm"
                       >
-                        <ShoppingCart className="w-4 h-4 mr-1" /> Move to Cart
+                        <ShoppingCart className="w-4 h-4 mr-1" /> Ongeza Kwenye Kikapu
                       </Button>
                       <button
                         onClick={() => toggleWishlist(p.id, p.name)}
                         className="p-2 rounded-md border text-gray-500 hover:text-red-500 hover:border-red-500 transition-colors"
-                        aria-label="Remove"
+                        aria-label="Ondoa"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

@@ -40,9 +40,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           loading="lazy"
         />
         <div className="absolute top-3 left-3 flex flex-col gap-1">
-          {isSale && <span className="bg-[#ff6b6b] text-white text-xs px-2 py-1 rounded-full font-semibold">SALE</span>}
-          {isNew && <span className="bg-[#1a2332] text-white text-xs px-2 py-1 rounded-full font-semibold">NEW</span>}
-          {!inStock && <span className="bg-gray-700 text-white text-xs px-2 py-1 rounded-full font-semibold">OUT</span>}
+          {isSale && <span className="bg-[#ff6b6b] text-white text-xs px-2 py-1 rounded-full font-semibold">PUNGUZO</span>}
+          {isNew && <span className="bg-[#1a2332] text-white text-xs px-2 py-1 rounded-full font-semibold">MPYA</span>}
+          {!inStock && <span className="bg-gray-700 text-white text-xs px-2 py-1 rounded-full font-semibold">IMEISHA</span>}
         </div>
         <div className="absolute top-3 right-3">
           <WishlistButton productId={product.id} productName={product.name} size="sm" />

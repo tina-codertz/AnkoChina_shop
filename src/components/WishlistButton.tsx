@@ -44,7 +44,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({ productId, productName,
         aria-label={active ? 'Remove from wishlist' : 'Add to wishlist'}
       >
         <Heart className={cn('w-4 h-4', active && 'fill-[#ff6b6b]')} />
-        <span className="text-sm font-medium">{active ? 'Saved' : 'Save'}</span>
+        <span className="text-sm font-medium">{active ? 'Imehifadhiwa' : 'Hifadhi'}</span>
       </button>
     );
   }
