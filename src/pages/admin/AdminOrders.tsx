@@ -37,8 +37,8 @@ const AdminOrders: React.FC = () => {
   const filtered = filterStatus === 'all' ? orders : orders.filter(o => o.status === filterStatus);
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Orders</h1>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Orders</h1>
       <p className="text-gray-500 text-sm mb-6">{orders.length} total orders</p>
 
       <div className="flex gap-2 mb-4 flex-wrap">
@@ -48,8 +48,8 @@ const AdminOrders: React.FC = () => {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white rounded-xl overflow-x-auto">
+        <table className="w-full text-sm min-w-[500px]">
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Order #</th>

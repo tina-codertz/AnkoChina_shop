@@ -37,16 +37,14 @@ const AdminUsers: React.FC = () => {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Users</h1>
-          <p className="text-gray-500 text-sm mt-1">{users.length} users</p>
-        </div>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Users</h1>
+        <p className="text-gray-500 text-sm mt-1">{users.length} users</p>
       </div>
 
-      <div className="bg-white rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white rounded-xl overflow-x-auto">
+        <table className="w-full text-sm min-w-[500px]">
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Name</th>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Minus, Plus, ShoppingCart, ArrowLeft, Truck, Shield, RefreshCw, Check } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, ArrowLeft, Check } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { api } from '@/lib/api';
 import { useCart } from '@/contexts/CartContext';
@@ -120,23 +120,6 @@ const ProductDetail: React.FC = () => {
             </div>
             <div className="mb-8">
               <WishlistButton productId={product.id} productName={product.name} variant="full" />
-            </div>
-
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 p-4 bg-white rounded-xl border">
-              <div className="text-center">
-                <Truck className="w-5 h-5 mx-auto mb-1 text-[#ff6b6b]" />
-                <div className="text-xs font-medium">Free Shipping</div>
-              </div>
-              <div className="text-center">
-                <RefreshCw className="w-5 h-5 mx-auto mb-1 text-[#ff6b6b]" />
-                <div className="text-xs font-medium">30-Day Returns</div>
-              </div>
-              <div className="text-center">
-                <Shield className="w-5 h-5 mx-auto mb-1 text-[#ff6b6b]" />
-                <div className="text-xs font-medium">Secure Payment</div>
-              </div>
             </div>
 
             {/* Meta */}

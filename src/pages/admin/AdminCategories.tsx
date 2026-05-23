@@ -43,17 +43,17 @@ const AdminCategories: React.FC = () => {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Categories</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Categories</h1>
           <p className="text-gray-500 text-sm mt-1">{collections.length} categories</p>
         </div>
-        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b]"><Plus className="w-4 h-4 mr-2" /> Add Category</Button>
+        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b] self-start"><Plus className="w-4 h-4 mr-2" /> Add Category</Button>
       </div>
 
-      <div className="bg-white rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white rounded-xl overflow-x-auto">
+        <table className="w-full text-sm min-w-[400px]">
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Title</th>

@@ -4,15 +4,15 @@ import { api } from '@/lib/api';
 import { formatPrice, formatDate } from '@/lib/format';
 
 const StatCard: React.FC<{ icon: any; label: string; value: string; trend?: string; color: string }> = ({ icon: Icon, label, value, trend, color }) => (
-  <div className="bg-white p-6 rounded-xl">
-    <div className="flex items-start justify-between">
-      <div>
-        <div className="text-sm text-gray-500">{label}</div>
-        <div className="text-2xl font-bold mt-2">{value}</div>
+  <div className="bg-white p-4 sm:p-6 rounded-xl">
+    <div className="flex items-start justify-between gap-2">
+      <div className="min-w-0">
+        <div className="text-xs sm:text-sm text-gray-500">{label}</div>
+        <div className="text-lg sm:text-2xl font-bold mt-1 sm:mt-2 truncate">{value}</div>
         {trend && <div className="flex items-center gap-1 text-xs text-green-600 mt-1"><TrendingUp className="w-3 h-3" /> {trend}</div>}
       </div>
-      <div className={`p-3 rounded-lg ${color}`}>
-        <Icon className="w-5 h-5 text-white" />
+      <div className={`p-2 sm:p-3 rounded-lg shrink-0 ${color}`}>
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
       </div>
     </div>
   </div>
@@ -43,18 +43,18 @@ const AdminDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold text-[#1a2332] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Dashboard</h1>
-      <p className="text-gray-500 mb-8">Welcome back. Here's what's happening with your store.</p>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-[#1a2332] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Dashboard</h1>
+      <p className="text-gray-500 mb-6 sm:mb-8">Welcome back. Here's what's happening with your store.</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <StatCard icon={DollarSign} label="Total Revenue" value={formatPrice(stats.revenue)} color="bg-green-500" />
         <StatCard icon={ShoppingBag} label="Total Orders" value={String(stats.orders)} color="bg-blue-500" />
         <StatCard icon={Users} label="Customers" value={String(stats.users)} color="bg-purple-500" />
         <StatCard icon={Package} label="Products" value={String(stats.products)} color="bg-[#ff6b6b]" />
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <div className="bg-white rounded-xl p-6">
           <h2 className="font-semibold mb-4">Recent Orders</h2>
           {recentOrders.length === 0 ? (
