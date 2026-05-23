@@ -3,7 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { SlidersHorizontal } from 'lucide-react';
 import Layout from '@/components/Layout';
 import ProductCard from '@/components/ProductCard';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 
 const Products: React.FC = () => {
@@ -27,30 +27,15 @@ const Products: React.FC = () => {
     const load = async () => {
       setLoading(true);
       if (handle) {
-        const { data: col } = await supabase.from('ecom_collections').select('*').eq('handle', handle).single();
-        if (col) {
-          setCollectionTitle(col.title);
-          const { data: links } = await supabase
-            .from('ecom_product_collections')
-            .select('product_id, position')
-            .eq('collection_id', col.id)
-            .order('position');
-          if (links && links.length > 0) {
-            const ids = links.map(l => l.product_id);
-            const { data: prods } = await supabase
-              .from('ecom_products')
-              .select('*')
-              .in('id', ids)
-              .eq('status', 'active');
-            setProducts(prods || []);
-          } else {
-            setProducts([]);
-          }
+        const { data } = await api.get<{ collection: any; products: any[] }>(`/collections/${handle}`);
+        if (data) {
+          setCollectionTitle(data.collection?.title || '');
+          setProducts(data.products || []);
         }
       } else {
         setCollectionTitle('');
-        const { data } = await supabase.from('ecom_products').select('*').eq('status', 'active');
-        setProducts(data || []);
+        const { data } = await api.get<{ products: any[] }>('/products?limit=200');
+        setProducts(data?.products || []);
       }
       setLoading(false);
     };

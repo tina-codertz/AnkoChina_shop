@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { useAuth } from './AuthContext';
 import { toast } from '@/components/ui/use-toast';
 
@@ -22,11 +22,10 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setWishlistIds(new Set());
       return;
     }
-    const { data } = await supabase
-      .from('wishlist')
-      .select('product_id')
-      .eq('user_id', user.id);
-    setWishlistIds(new Set((data || []).map(w => w.product_id)));
+    const { data } = await api.get<{ products: any[] }>('/wishlist');
+    if (data?.products) {
+      setWishlistIds(new Set(data.products.map((p: any) => p.id)));
+    }
   }, [user]);
 
   useEffect(() => {
@@ -41,11 +40,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return;
     }
     if (wishlistIds.has(productId)) {
-      const { error } = await supabase
-        .from('wishlist')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('product_id', productId);
+      const { error } = await api.delete(`/wishlist/${productId}`);
       if (!error) {
         setWishlistIds(prev => {
           const next = new Set(prev);
@@ -55,9 +50,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         toast({ title: 'Removed from wishlist', description: productName });
       }
     } else {
-      const { error } = await supabase
-        .from('wishlist')
-        .insert({ user_id: user.id, product_id: productId });
+      const { error } = await api.post(`/wishlist/${productId}`);
       if (!error) {
         setWishlistIds(prev => new Set(prev).add(productId));
         toast({ title: 'Added to wishlist', description: productName });

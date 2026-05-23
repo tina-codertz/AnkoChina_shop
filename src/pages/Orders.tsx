@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice, formatDate } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 
@@ -27,13 +27,9 @@ const Orders: React.FC = () => {
       navigate('/login', { state: { redirect: '/orders' } });
       return;
     }
-    supabase
-      .from('ecom_orders')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
+    api.get<{ orders: any[] }>('/orders')
       .then(({ data }) => {
-        setOrders(data || []);
+        setOrders(data?.orders || []);
         setLoading(false);
       });
   }, [user, navigate]);

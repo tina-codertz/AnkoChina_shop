@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit, Trash2, X } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
-const empty = { title: '', handle: '', description: '', is_visible: true, sort_order: 'manual' };
+const empty = { title: '', handle: '', description: '' };
 
 const AdminCategories: React.FC = () => {
   const [collections, setCollections] = useState<any[]>([]);
   const [editing, setEditing] = useState<any>(null);
 
   const load = async () => {
-    const { data } = await supabase.from('ecom_collections').select('*').order('title');
-    setCollections(data || []);
+    const { data } = await api.get<{ collections: any[] }>('/admin/collections');
+    setCollections(data?.collections || []);
   };
   useEffect(() => { load(); }, []);
 
@@ -22,15 +22,13 @@ const AdminCategories: React.FC = () => {
       title: editing.title,
       handle: editing.handle || editing.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
       description: editing.description,
-      is_visible: editing.is_visible,
-      sort_order: editing.sort_order,
     };
     if (editing.id) {
-      const { error } = await supabase.from('ecom_collections').update(payload).eq('id', editing.id);
-      if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+      const { error } = await api.put(`/admin/collections/${editing.id}`, payload);
+      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
     } else {
-      const { error } = await supabase.from('ecom_collections').insert(payload);
-      if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+      const { error } = await api.post('/admin/collections', payload);
+      if (error) { toast({ title: 'Error', description: error, variant: 'destructive' }); return; }
     }
     toast({ title: 'Saved' });
     setEditing(null);
@@ -39,8 +37,7 @@ const AdminCategories: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this category?')) return;
-    await supabase.from('ecom_product_collections').delete().eq('collection_id', id);
-    await supabase.from('ecom_collections').delete().eq('id', id);
+    await api.delete(`/admin/collections/${id}`);
     toast({ title: 'Deleted' });
     load();
   };
@@ -61,7 +58,6 @@ const AdminCategories: React.FC = () => {
             <tr>
               <th className="px-4 py-3 font-medium">Title</th>
               <th className="px-4 py-3 font-medium">Handle</th>
-              <th className="px-4 py-3 font-medium">Visible</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -70,7 +66,6 @@ const AdminCategories: React.FC = () => {
               <tr key={c.id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{c.title}</td>
                 <td className="px-4 py-3 text-gray-600">{c.handle}</td>
-                <td className="px-4 py-3">{c.is_visible ? 'Yes' : 'No'}</td>
                 <td className="px-4 py-3 text-right">
                   <button onClick={() => setEditing({ ...c })} className="p-1 hover:bg-gray-200 rounded mr-1"><Edit className="w-4 h-4" /></button>
                   <button onClick={() => handleDelete(c.id)} className="p-1 hover:bg-red-100 rounded text-red-600"><Trash2 className="w-4 h-4" /></button>
@@ -101,10 +96,6 @@ const AdminCategories: React.FC = () => {
                 <label className="text-sm font-medium block mb-1">Description</label>
                 <textarea value={editing.description || ''} onChange={e => setEditing({ ...editing, description: e.target.value })} className="w-full px-3 py-2 border rounded-md" />
               </div>
-              <label className="flex items-center gap-2">
-                <input type="checkbox" checked={editing.is_visible} onChange={e => setEditing({ ...editing, is_visible: e.target.checked })} />
-                <span className="text-sm">Visible on store</span>
-              </label>
               <div className="flex gap-2 justify-end">
                 <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
                 <Button onClick={handleSave} className="bg-[#ff6b6b]">Save</Button>

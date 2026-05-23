@@ -5,13 +5,13 @@ import Layout from '@/components/Layout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 
 const Wishlist: React.FC = () => {
   const { user } = useAuth();
-  const { wishlistIds, toggleWishlist, refreshWishlist } = useWishlist();
+  const { wishlistIds, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [products, setProducts] = useState<any[]>([]);
@@ -28,17 +28,8 @@ const Wishlist: React.FC = () => {
     const load = async () => {
       if (!user) return;
       setLoading(true);
-      const ids = Array.from(wishlistIds);
-      if (ids.length === 0) {
-        setProducts([]);
-        setLoading(false);
-        return;
-      }
-      const { data } = await supabase
-        .from('ecom_products')
-        .select('*')
-        .in('id', ids);
-      setProducts(data || []);
+      const { data } = await api.get<{ products: any[] }>('/wishlist');
+      setProducts(data?.products || []);
       setLoading(false);
     };
     load();

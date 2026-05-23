@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, TrendingUp, Award } from 'lucide-react';
 import Layout from '@/components/Layout';
 import ProductCard from '@/components/ProductCard';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 
 const HERO_IMAGE = 'https://d64gsuwffb70l.cloudfront.net/6a102606978e06760a2ea96b_1779443451765_1ae303c2.png';
@@ -14,12 +14,12 @@ const Home: React.FC = () => {
   const [collections, setCollections] = useState<any[]>([]);
 
   useEffect(() => {
-    supabase.from('ecom_products').select('*').eq('status', 'active').contains('tags', ['featured']).limit(8)
-      .then(({ data }) => setFeatured(data || []));
-    supabase.from('ecom_products').select('*').eq('status', 'active').order('created_at', { ascending: false }).limit(8)
-      .then(({ data }) => setNewest(data || []));
-    supabase.from('ecom_collections').select('*').eq('is_visible', true).limit(6)
-      .then(({ data }) => setCollections(data || []));
+    api.get<{ products: any[] }>('/products?sort=newest&limit=8')
+      .then(({ data }) => setNewest(data?.products || []));
+    api.get<{ products: any[] }>('/products?limit=8')
+      .then(({ data }) => setFeatured(data?.products || []));
+    api.get<{ collections: any[] }>('/collections')
+      .then(({ data }) => setCollections(data?.collections || []));
   }, []);
 
   return (
