@@ -23,14 +23,13 @@ orders.post('/', async (c) => {
     customer_email: string;
     customer_name: string;
     customer_phone?: string;
-    stripe_payment_intent_id: string;
+    stripe_payment_intent_id?: string;
   }>();
 
   if (!body.items?.length) {
     return c.json({ error: 'Order must have at least one item' }, 400);
   }
 
-  // Calculate totals server-side for integrity
   let subtotal = 0;
   for (const item of body.items) {
     const product = await c.env.DB.prepare(
@@ -40,16 +39,14 @@ orders.post('/', async (c) => {
     if (!product) {
       return c.json({ error: `Product ${item.product_id} not found` }, 400);
     }
-    if (product.inventory_qty < item.quantity) {
+    if (product.inventory_qty != null && product.inventory_qty < item.quantity) {
       return c.json({ error: `Insufficient stock for ${item.product_name}` }, 400);
     }
     item.unit_price = product.price;
     subtotal += product.price * item.quantity;
   }
 
-  // Simple tax calculation (replace with real tax API)
-  const taxRate = 0.08;
-  const tax = Math.round(subtotal * taxRate);
+  const tax = 0;
   const shipping = 0;
   const total = subtotal + tax + shipping;
 
@@ -75,7 +72,7 @@ orders.post('/', async (c) => {
   const orderId = crypto.randomUUID();
   await c.env.DB.prepare(
     `INSERT INTO ecom_orders (id, customer_id, user_id, status, subtotal, tax, shipping, total, shipping_address, stripe_payment_intent_id)
-     VALUES (?, ?, ?, 'paid', ?, ?, ?, ?, ?, ?)`
+     VALUES (?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?)`
   ).bind(
     orderId,
     customer?.id || null,
@@ -85,7 +82,7 @@ orders.post('/', async (c) => {
     shipping,
     total,
     JSON.stringify(body.shipping_address),
-    body.stripe_payment_intent_id
+    body.stripe_payment_intent_id || null
   ).run();
 
   // Insert line items + decrement inventory
@@ -112,7 +109,7 @@ orders.post('/', async (c) => {
     ).bind(item.quantity, item.product_id).run();
   }
 
-  return c.json({ id: orderId, status: 'paid', subtotal, tax, shipping, total }, 201);
+  return c.json({ id: orderId, status: 'pending', subtotal, tax, shipping, total }, 201);
 });
 
 orders.get('/', async (c) => {
