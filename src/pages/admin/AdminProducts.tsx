@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Plus, Edit, Trash2, X } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import { Plus, Edit, Trash2, X, Upload, ImageIcon } from 'lucide-react';
 import { api } from '@/lib/api';
 import { formatPrice } from '@/lib/format';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,9 @@ const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [editing, setEditing] = useState<any>(null);
   const [search, setSearch] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const load = async () => {
     const { data } = await api.get<{ products: any[] }>('/admin/products');
@@ -50,6 +53,33 @@ const AdminProducts: React.FC = () => {
     await api.delete(`/admin/products/${id}`);
     toast({ title: 'Deleted' });
     load();
+  };
+
+  const handleImageUpload = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({ title: 'Invalid file', description: 'Please select an image file.', variant: 'destructive' });
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast({ title: 'File too large', description: 'Image must be under 2MB.', variant: 'destructive' });
+      return;
+    }
+    setUploading(true);
+    const { data, error } = await api.upload<{ url: string }>('/uploads', file);
+    setUploading(false);
+    if (error || !data) {
+      toast({ title: 'Upload failed', description: error || 'Unknown error', variant: 'destructive' });
+      return;
+    }
+    setEditing((prev: any) => ({ ...prev, images: [data.url] }));
+    toast({ title: 'Image uploaded' });
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleImageUpload(file);
   };
 
   const filtered = products.filter(p => !search || p.name.toLowerCase().includes(search.toLowerCase()));
@@ -153,9 +183,62 @@ const AdminProducts: React.FC = () => {
                   <textarea value={editing.description} onChange={e => setEditing({ ...editing, description: e.target.value })} rows={3} className="w-full px-3 py-2 border rounded-md" />
                 </div>
                 <div className="col-span-2">
-                  <label className="text-sm font-medium block mb-1">Image URL</label>
-                  <input type="text" value={editing.images[0] || ''} onChange={e => setEditing({ ...editing, images: [e.target.value] })} className="w-full px-3 py-2 border rounded-md" />
-                  {editing.images[0] && <img src={editing.images[0]} alt="" className="w-32 h-32 object-cover rounded mt-2" />}
+                  <label className="text-sm font-medium block mb-1">Product Image</label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="hidden"
+                    onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }}
+                  />
+                  {editing.images[0] ? (
+                    <div className="relative inline-block">
+                      <img src={editing.images[0]} alt="" className="w-40 h-40 object-cover rounded-lg border" />
+                      <div className="flex gap-2 mt-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={uploading}
+                        >
+                          {uploading ? 'Uploading...' : 'Replace'}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditing({ ...editing, images: [''] })}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                        dragOver ? 'border-[#ff6b6b] bg-red-50' : 'border-gray-300 hover:border-gray-400'
+                      }`}
+                      onClick={() => fileInputRef.current?.click()}
+                      onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                      onDragLeave={() => setDragOver(false)}
+                      onDrop={handleDrop}
+                    >
+                      {uploading ? (
+                        <div className="text-gray-500">
+                          <div className="animate-spin w-8 h-8 border-2 border-[#ff6b6b] border-t-transparent rounded-full mx-auto mb-2" />
+                          <p className="text-sm">Uploading...</p>
+                        </div>
+                      ) : (
+                        <>
+                          <ImageIcon className="w-10 h-10 text-gray-400 mx-auto mb-2" />
+                          <p className="text-sm text-gray-600 font-medium">Click to upload or drag & drop</p>
+                          <p className="text-xs text-gray-400 mt-1">JPEG, PNG, WebP, GIF (max 2MB)</p>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2 justify-end pt-4 border-t">

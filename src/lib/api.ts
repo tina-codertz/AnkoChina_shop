@@ -37,6 +37,33 @@ async function request<T = any>(
   }
 }
 
+async function uploadFile<T = any>(
+  path: string,
+  file: File
+): Promise<{ data: T | null; error: string | null }> {
+  const token = getToken();
+  const headers: Record<string, string> = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+    const body = await res.json();
+    if (!res.ok) {
+      return { data: null, error: body.error || `Upload failed (${res.status})` };
+    }
+    return { data: body as T, error: null };
+  } catch (err: any) {
+    return { data: null, error: err.message || 'Network error' };
+  }
+}
+
 export const api = {
   get: <T = any>(path: string) => request<T>(path),
   post: <T = any>(path: string, body?: any) =>
@@ -47,4 +74,5 @@ export const api = {
     request<T>(path, { method: 'PATCH', body: JSON.stringify(body) }),
   delete: <T = any>(path: string) =>
     request<T>(path, { method: 'DELETE' }),
+  upload: <T = any>(path: string, file: File) => uploadFile<T>(path, file),
 };
