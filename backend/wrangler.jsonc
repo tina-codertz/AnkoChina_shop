@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "anko-shop-api",
+  "compatibility_date": "2025-08-03",
+  "main": "./src/index.ts",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "anko-shop-db",
+      "database_id": "LOCAL_PLACEHOLDER"
+    }
+  ],
+  "vars": {
+    "JWT_SECRET": "change-me-in-production",
+    "STRIPE_SECRET_KEY": "",
+    "STRIPE_ACCOUNT_ID": "acct_1TZpgkHCv76fvWSG",
+    "FAMOUS_AI_PROJECT_ID": "6a102606978e06760a2ea96b",
+    "FRONTEND_URL": "http://localhost:8080"
+  }
+}
