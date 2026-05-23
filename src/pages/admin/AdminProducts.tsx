@@ -85,20 +85,20 @@ const AdminProducts: React.FC = () => {
   const filtered = products.filter(p => !search || p.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Products</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>Products</h1>
           <p className="text-gray-500 text-sm mt-1">{products.length} products</p>
         </div>
-        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b]"><Plus className="w-4 h-4 mr-2" /> Add Product</Button>
+        <Button onClick={() => setEditing({ ...empty })} className="bg-[#ff6b6b] self-start"><Plus className="w-4 h-4 mr-2" /> Add Product</Button>
       </div>
 
       <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)}
         className="w-full max-w-md mb-6 px-4 py-2 rounded-lg border" />
 
-      <div className="bg-white rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white rounded-xl overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Product</th>
@@ -145,8 +145,8 @@ const AdminProducts: React.FC = () => {
               <button onClick={() => setEditing(null)} className="p-1 hover:bg-gray-100 rounded"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
                   <label className="text-sm font-medium block mb-1">Name</label>
                   <input type="text" value={editing.name} onChange={e => setEditing({ ...editing, name: e.target.value })} className="w-full px-3 py-2 border rounded-md" />
                 </div>
@@ -178,11 +178,11 @@ const AdminProducts: React.FC = () => {
                     <option value="archived">Archived</option>
                   </select>
                 </div>
-                <div className="col-span-2">
+                <div className="sm:col-span-2">
                   <label className="text-sm font-medium block mb-1">Description</label>
                   <textarea value={editing.description} onChange={e => setEditing({ ...editing, description: e.target.value })} rows={3} className="w-full px-3 py-2 border rounded-md" />
                 </div>
-                <div className="col-span-2">
+                <div className="sm:col-span-2">
                   <label className="text-sm font-medium block mb-1">Product Image</label>
                   <input
                     ref={fileInputRef}
