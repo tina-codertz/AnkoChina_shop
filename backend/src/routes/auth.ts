@@ -38,20 +38,6 @@ auth.post('/register', async (c) => {
     c.env.JWT_SECRET
   );
 
-  // CRM subscription (fire-and-forget, don't block response)
-  c.executionCtx.waitUntil(
-    fetch(`https://famous.ai/api/crm/${c.env.FAMOUS_AI_PROJECT_ID}/subscribe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: cleanEmail,
-        name,
-        source: 'registration',
-        tags: ['customer', 'newsletter'],
-      }),
-    }).catch(() => {})
-  );
-
   return c.json({
     token,
     user: { id, email: cleanEmail, name, role: 'customer', phone: null, address: null },

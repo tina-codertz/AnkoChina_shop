@@ -14,7 +14,6 @@
     "JWT_SECRET": "change-me-in-production",
     "STRIPE_SECRET_KEY": "",
     "STRIPE_ACCOUNT_ID": "acct_1TZpgkHCv76fvWSG",
-    "FAMOUS_AI_PROJECT_ID": "6a102606978e06760a2ea96b",
     "FRONTEND_URL": "http://localhost:8080"
   }
 }

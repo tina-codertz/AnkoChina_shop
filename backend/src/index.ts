@@ -10,6 +10,7 @@ import orders from './routes/orders';
 import wishlist from './routes/wishlist';
 import checkout from './routes/checkout';
 import admin from './routes/admin';
+import newsletter from './routes/newsletter';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -42,6 +43,7 @@ app.route('/api/orders', orders);
 app.route('/api/wishlist', wishlist);
 app.route('/api/checkout', checkout);
 app.route('/api/admin', admin);
+app.route('/api/newsletter', newsletter);
 
 app.notFound((c) => c.json({ error: 'Not found' }, 404));
 

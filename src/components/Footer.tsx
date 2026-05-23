@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Truck, Shield, RefreshCw, HeadphonesIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { api } from '@/lib/api';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -12,19 +13,14 @@ const Footer: React.FC = () => {
     e.preventDefault();
     if (!email) return;
     setSubmitting(true);
-    try {
-      await fetch('https://famous.ai/api/crm/6a102606978e06760a2ea96b/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'footer-signup', tags: ['newsletter'] }),
-      });
+    const { error } = await api.post('/newsletter/subscribe', { email });
+    if (error) {
+      toast({ title: 'Error', description: 'Please try again.', variant: 'destructive' });
+    } else {
       toast({ title: 'Subscribed!', description: 'Thanks for joining our newsletter.' });
       setEmail('');
-    } catch {
-      toast({ title: 'Error', description: 'Please try again.', variant: 'destructive' });
-    } finally {
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
 
   return (

@@ -3,7 +3,6 @@ export interface Env {
   JWT_SECRET: string;
   STRIPE_SECRET_KEY: string;
   STRIPE_ACCOUNT_ID: string;
-  FAMOUS_AI_PROJECT_ID: string;
   FRONTEND_URL: string;
 }
 

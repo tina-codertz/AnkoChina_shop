@@ -112,22 +112,6 @@ orders.post('/', async (c) => {
     ).bind(item.quantity, item.product_id).run();
   }
 
-  // Confirmation email (fire-and-forget)
-  c.executionCtx.waitUntil(
-    fetch(`https://famous.ai/api/ecommerce/${c.env.FAMOUS_AI_PROJECT_ID}/send-confirmation`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderId,
-        customerEmail: body.customer_email,
-        customerName: body.customer_name,
-        orderItems: body.items,
-        subtotal, shipping, tax, total,
-        shippingAddress: body.shipping_address,
-      }),
-    }).catch(() => {})
-  );
-
   return c.json({ id: orderId, status: 'paid', subtotal, tax, shipping, total }, 201);
 });
 
