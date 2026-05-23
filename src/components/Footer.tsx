@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-[#ff6b6b] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">N</span>
+                <span className="text-white font-bold text-sm">A</span>
               </div>
               <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina</span>
             </div>
