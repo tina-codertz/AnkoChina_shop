@@ -28,7 +28,7 @@ const AdminLayout: React.FC = () => {
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#ff6b6b] rounded-lg flex items-center justify-center font-bold">N</div>
-            <span className="font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>NOVA Admin</span>
+            <span className="font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina Admin</span>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">

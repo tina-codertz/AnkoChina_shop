@@ -45,7 +45,7 @@ const Header: React.FC = () => {
               <div className="w-8 h-8 bg-[#1a2332] rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">N</span>
               </div>
-              <span className="text-xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>NOVA</span>
+              <span className="text-xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina</span>
             </Link>
             <nav className="hidden lg:flex items-center gap-6">
               <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-[#ff6b6b] transition-colors">All</Link>
