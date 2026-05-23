@@ -53,12 +53,6 @@ const Login: React.FC = () => {
           <div className="text-center text-sm text-gray-600 mt-6">
             Don't have an account? <Link to="/register" state={{ redirect }} className="text-[#ff6b6b] font-medium">Sign up</Link>
           </div>
-
-          <div className="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-600">
-            <div className="font-medium mb-1">Demo Accounts:</div>
-            <div>Admin: admin@shop.com / admin123</div>
-            <div>Customer: demo@shop.com / demo123</div>
-          </div>
         </div>
       </div>
     </Layout>

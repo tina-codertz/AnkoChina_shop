@@ -61,9 +61,9 @@ const Footer: React.FC = () => {
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-[#ff6b6b] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">N</span>
+                <span className="text-white font-bold text-sm">A</span>
               </div>
-              <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>NOVA</span>
+              <span className="text-xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>AnkoChina</span>
             </div>
             <p className="text-sm text-gray-400 mb-4 max-w-sm">
               Discover premium products curated for the modern lifestyle. Quality you can trust.
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="pt-6 border-t border-gray-700 text-center text-xs text-gray-500">
-          &copy; {new Date().getFullYear()} NOVA. All rights reserved.
+          &copy; {new Date().getFullYear()} AnkoChina. All rights reserved.
         </div>
       </div>
     </footer>
