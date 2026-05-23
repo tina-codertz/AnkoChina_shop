@@ -113,10 +113,26 @@ admin.put('/products/:id', async (c) => {
 admin.delete('/products/:id', async (c) => {
   const id = c.req.param('id');
 
-  await c.env.DB.prepare('DELETE FROM ecom_product_collections WHERE product_id = ?').bind(id).run();
-  await c.env.DB.prepare('DELETE FROM ecom_products WHERE id = ?').bind(id).run();
+  try {
+    await c.env.DB.prepare('DELETE FROM wishlist WHERE product_id = ?').bind(id).run();
+    await c.env.DB.prepare('DELETE FROM ecom_product_collections WHERE product_id = ?').bind(id).run();
 
-  return c.json({ success: true });
+    const hasOrders = await c.env.DB.prepare(
+      'SELECT COUNT(*) as count FROM ecom_order_items WHERE product_id = ?'
+    ).bind(id).first<{ count: number }>();
+
+    if (hasOrders && hasOrders.count > 0) {
+      await c.env.DB.prepare(
+        "UPDATE ecom_products SET status = 'archived', updated_at = datetime('now') WHERE id = ?"
+      ).bind(id).run();
+      return c.json({ success: true, archived: true });
+    }
+
+    await c.env.DB.prepare('DELETE FROM ecom_products WHERE id = ?').bind(id).run();
+    return c.json({ success: true });
+  } catch (err: any) {
+    return c.json({ error: 'Imeshindikana kufuta bidhaa: ' + (err.message || 'Unknown error') }, 500);
+  }
 });
 
 // ─── Collections CRUD ───
