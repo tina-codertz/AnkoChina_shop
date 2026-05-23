@@ -112,9 +112,9 @@ orders.post('/', async (c) => {
     ).bind(item.quantity, item.product_id).run();
   }
 
-  // Send confirmation email (best-effort)
-  try {
-    await fetch(`https://famous.ai/api/ecommerce/${c.env.FAMOUS_AI_PROJECT_ID}/send-confirmation`, {
+  // Confirmation email (fire-and-forget)
+  c.executionCtx.waitUntil(
+    fetch(`https://famous.ai/api/ecommerce/${c.env.FAMOUS_AI_PROJECT_ID}/send-confirmation`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -125,8 +125,8 @@ orders.post('/', async (c) => {
         subtotal, shipping, tax, total,
         shippingAddress: body.shipping_address,
       }),
-    });
-  } catch {}
+    }).catch(() => {})
+  );
 
   return c.json({ id: orderId, status: 'paid', subtotal, tax, shipping, total }, 201);
 });

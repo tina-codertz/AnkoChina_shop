@@ -38,9 +38,9 @@ auth.post('/register', async (c) => {
     c.env.JWT_SECRET
   );
 
-  // CRM subscription (best-effort)
-  try {
-    await fetch(`https://famous.ai/api/crm/${c.env.FAMOUS_AI_PROJECT_ID}/subscribe`, {
+  // CRM subscription (fire-and-forget, don't block response)
+  c.executionCtx.waitUntil(
+    fetch(`https://famous.ai/api/crm/${c.env.FAMOUS_AI_PROJECT_ID}/subscribe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -49,8 +49,8 @@ auth.post('/register', async (c) => {
         source: 'registration',
         tags: ['customer', 'newsletter'],
       }),
-    });
-  } catch {}
+    }).catch(() => {})
+  );
 
   return c.json({
     token,
