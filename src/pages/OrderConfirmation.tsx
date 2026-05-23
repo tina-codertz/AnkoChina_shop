@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CheckCircle, Package, Mail } from 'lucide-react';
 import Layout from '@/components/Layout';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { formatPrice, formatDate } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 
@@ -13,8 +13,12 @@ const OrderConfirmation: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
-    supabase.from('ecom_orders').select('*').eq('id', id).single().then(({ data }) => setOrder(data));
-    supabase.from('ecom_order_items').select('*').eq('order_id', id).then(({ data }) => setItems(data || []));
+    api.get<any>(`/orders/${id}`).then(({ data }) => {
+      if (data) {
+        setOrder(data);
+        setItems(data.items || []);
+      }
+    });
   }, [id]);
 
   if (!order) {

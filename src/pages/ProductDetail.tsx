@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Minus, Plus, ShoppingCart, ArrowLeft, Truck, Shield, RefreshCw, Check } from 'lucide-react';
 import Layout from '@/components/Layout';
-import { supabase } from '@/lib/supabase';
+import { api } from '@/lib/api';
 import { useCart } from '@/contexts/CartContext';
 import { formatPrice } from '@/lib/format';
 import { Button } from '@/components/ui/button';
@@ -22,11 +22,7 @@ const ProductDetail: React.FC = () => {
       if (!handle) return;
       setLoading(true);
       setQuantity(1);
-      const { data } = await supabase
-        .from('ecom_products')
-        .select('*')
-        .eq('handle', handle)
-        .single();
+      const { data } = await api.get(`/products/${handle}`);
       setProduct(data);
       setLoading(false);
     };
