@@ -1,6 +1,4 @@
-const API_BASE = import.meta.env.PROD
-  ? 'https://anko-shop-api.christinakimario8.workers.dev/api'
-  : '/api';
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 const TOKEN_KEY = 'shop_token';
 
 function getToken(): string | null {
