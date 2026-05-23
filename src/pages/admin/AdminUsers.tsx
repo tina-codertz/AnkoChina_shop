@@ -48,7 +48,7 @@ const AdminUsers: React.FC = () => {
           <thead className="bg-gray-50 text-left">
             <tr>
               <th className="px-4 py-3 font-medium">Jina</th>
-              <th className="px-4 py-3 font-medium">Barua pepe</th>
+              <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Nafasi</th>
               <th className="px-4 py-3 font-medium">Tarehe</th>
               <th className="px-4 py-3"></th>
@@ -82,7 +82,7 @@ const AdminUsers: React.FC = () => {
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="text-sm font-medium block mb-1">Barua pepe</label>
+                <label className="text-sm font-medium block mb-1">Email</label>
                 <input type="email" value={editing.email} disabled className="w-full px-3 py-2 border rounded-md bg-gray-50" />
               </div>
               <div>

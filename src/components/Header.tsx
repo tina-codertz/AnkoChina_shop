@@ -91,19 +91,19 @@ const Header: React.FC = () => {
                     <Package className="w-4 h-4 mr-2" /> Oda Zangu
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/wishlist')}>
-                    <Heart className="w-4 h-4 mr-2" /> Vipendwa
+                    <Heart className="w-4 h-4 mr-2" /> Favorites
                     {wishlistCount > 0 && <span className="ml-auto text-xs bg-[#ff6b6b] text-white rounded-full px-2">{wishlistCount}</span>}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => { logout(); navigate('/'); }}>
-                    <LogOut className="w-4 h-4 mr-2" /> Toka
+                    <LogOut className="w-4 h-4 mr-2" /> Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
                 <User className="w-5 h-5 md:mr-2" />
-                <span className="hidden md:inline">Ingia</span>
+                <span className="hidden md:inline">Login</span>
               </Button>
             )}
             {user && (
@@ -154,7 +154,7 @@ const Header: React.FC = () => {
             ))}
             {user && (
               <Link to="/wishlist" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded">
-                Vipendwa {wishlistCount > 0 && `(${wishlistCount})`}
+                Favorites {wishlistCount > 0 && `(${wishlistCount})`}
               </Link>
             )}
           </div>

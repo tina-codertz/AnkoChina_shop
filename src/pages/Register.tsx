@@ -18,7 +18,7 @@ const Register: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 6) {
-      toast({ title: 'Nywila fupi sana', description: 'Angalau herufi 6 zinahitajika.', variant: 'destructive' });
+      toast({ title: 'Password fupi sana', description: 'Angalau herufi 6 zinahitajika.', variant: 'destructive' });
       return;
     }
     setLoading(true);
@@ -28,7 +28,7 @@ const Register: React.FC = () => {
       toast({ title: 'Akaunti imetengenezwa!' });
       navigate(redirect);
     } else {
-      toast({ title: 'Imeshindikana kujisajili', description: res.error, variant: 'destructive' });
+      toast({ title: 'Sign up imeshindikana', description: res.error, variant: 'destructive' });
     }
   };
 
@@ -46,12 +46,12 @@ const Register: React.FC = () => {
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Barua pepe</label>
+              <label className="block text-sm font-medium mb-1">Email</label>
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Nywila</label>
+              <label className="block text-sm font-medium mb-1">Password</label>
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)} minLength={6}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-[#ff6b6b]" />
             </div>
@@ -61,7 +61,7 @@ const Register: React.FC = () => {
           </form>
 
           <div className="text-center text-sm text-gray-600 mt-6">
-            Una akaunti tayari? <Link to="/login" state={{ redirect }} className="text-[#ff6b6b] font-medium">Ingia</Link>
+            Una akaunti tayari? <Link to="/login" state={{ redirect }} className="text-[#ff6b6b] font-medium">Login</Link>
           </div>
         </div>
       </div>

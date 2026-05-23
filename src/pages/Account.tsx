@@ -38,7 +38,7 @@ const Account: React.FC = () => {
         <div className="bg-white rounded-2xl p-6">
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Barua pepe</label>
+              <label className="block text-sm font-medium mb-1">Email</label>
               <input type="email" value={user.email} disabled className="w-full px-3 py-2 border rounded-md bg-gray-50" />
             </div>
             <div>

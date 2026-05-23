@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="Barua pepe yako"
+                placeholder="Email yako"
                 required
                 className="flex-1 px-3 py-2 text-sm rounded-md bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b6b]"
               />

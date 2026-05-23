@@ -43,7 +43,7 @@ const AdminLayout: React.FC = () => {
           <Home className="w-4 h-4" /> Tazama Duka
         </button>
         <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-gray-300 hover:bg-white/10">
-          <LogOut className="w-4 h-4" /> Toka
+          <LogOut className="w-4 h-4" /> Sign Out
         </button>
       </div>
     </>

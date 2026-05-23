@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { api, setToken } from '@/lib/api';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { api, setToken, setAuthErrorHandler } from '@/lib/api';
 
 export interface AppUser {
   id: string;
@@ -23,31 +23,51 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const USER_KEY = 'shop_user';
+const CART_KEY = 'ecom_cart';
+
+function clearAllSessionData() {
+  localStorage.removeItem(USER_KEY);
+  localStorage.removeItem(CART_KEY);
+  setToken(null);
+}
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const performLogout = useCallback(() => {
+    setUser(null);
+    clearAllSessionData();
+  }, []);
+
+  useEffect(() => {
+    setAuthErrorHandler(performLogout);
+  }, [performLogout]);
 
   useEffect(() => {
     const stored = localStorage.getItem(USER_KEY);
     if (stored) {
       try {
         setUser(JSON.parse(stored));
-      } catch {}
+      } catch {
+        localStorage.removeItem(USER_KEY);
+      }
     }
-    // Verify token is still valid
-    api.get<AppUser>('/auth/me').then(({ data }) => {
+
+    api.get<AppUser>('/auth/me').then(({ data, error }) => {
       if (data) {
         setUser(data);
         localStorage.setItem(USER_KEY, JSON.stringify(data));
-      } else {
-        // Token expired or invalid — keep cached user for offline
+      } else if (error) {
+        performLogout();
       }
       setLoading(false);
     });
-  }, []);
+  }, [performLogout]);
 
   const login = async (email: string, password: string) => {
+    clearAllSessionData();
+
     const { data, error } = await api.post<{ token: string; user: AppUser }>('/auth/login', { email, password });
     if (error || !data) return { success: false, error: error || 'Login failed' };
     setToken(data.token);
@@ -57,6 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const register = async (email: string, password: string, name: string) => {
+    clearAllSessionData();
+
     const { data, error } = await api.post<{ token: string; user: AppUser }>('/auth/register', { email, password, name });
     if (error || !data) return { success: false, error: error || 'Registration failed' };
     setToken(data.token);
@@ -66,9 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem(USER_KEY);
+    performLogout();
   };
 
   const updateProfile = async (data: Partial<AppUser>) => {

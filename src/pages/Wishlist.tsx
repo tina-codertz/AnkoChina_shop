@@ -71,7 +71,7 @@ const Wishlist: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-[#1a2332]" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Vipendwa Vyangu
+              Favorites
             </h1>
             <p className="text-gray-600 mt-1">
               Bidhaa {products.length} zimehifadhiwa

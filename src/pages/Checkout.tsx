@@ -124,10 +124,10 @@ const Checkout: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             {step === 'auth' && (
               <div className="bg-white rounded-xl p-6">
-                <h2 className="text-xl font-semibold mb-4">Ingia au tengeneza akaunti</h2>
+                <h2 className="text-xl font-semibold mb-4">Login au tengeneza akaunti</h2>
                 <div className="flex gap-2 mb-4">
                   <Button variant={authMode === 'register' ? 'default' : 'outline'} onClick={() => setAuthMode('register')} size="sm">Tengeneza Akaunti</Button>
-                  <Button variant={authMode === 'login' ? 'default' : 'outline'} onClick={() => setAuthMode('login')} size="sm">Ingia</Button>
+                  <Button variant={authMode === 'login' ? 'default' : 'outline'} onClick={() => setAuthMode('login')} size="sm">Login</Button>
                   <Button variant="outline" onClick={continueAsGuest} size="sm">Endelea bila Akaunti</Button>
                 </div>
                 <form onSubmit={handleAuth} className="space-y-3">
@@ -135,12 +135,12 @@ const Checkout: React.FC = () => {
                     <input type="text" required value={authName} onChange={e => setAuthName(e.target.value)} placeholder="Jina kamili"
                       className="w-full px-3 py-2 border rounded-md" />
                   )}
-                  <input type="email" required value={authEmail} onChange={e => setAuthEmail(e.target.value)} placeholder="Barua pepe"
+                  <input type="email" required value={authEmail} onChange={e => setAuthEmail(e.target.value)} placeholder="Email"
                     className="w-full px-3 py-2 border rounded-md" />
-                  <input type="password" required value={authPassword} onChange={e => setAuthPassword(e.target.value)} placeholder="Nywila" minLength={6}
+                  <input type="password" required value={authPassword} onChange={e => setAuthPassword(e.target.value)} placeholder="Password" minLength={6}
                     className="w-full px-3 py-2 border rounded-md" />
                   <Button type="submit" disabled={authLoading} className="w-full bg-[#1a2332]">
-                    {authLoading ? 'Subiri...' : (authMode === 'register' ? 'Tengeneza na Endelea' : 'Ingia na Endelea')}
+                    {authLoading ? 'Subiri...' : (authMode === 'register' ? 'Sign Up na Endelea' : 'Login na Endelea')}
                   </Button>
                 </form>
               </div>
@@ -152,7 +152,7 @@ const Checkout: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input required placeholder="Jina kamili" value={addr.name} onChange={e => setAddr({...addr, name: e.target.value})}
                     className="sm:col-span-2 px-3 py-2 border rounded-md" />
-                  <input required type="email" placeholder="Barua pepe" value={addr.email} onChange={e => setAddr({...addr, email: e.target.value})}
+                  <input required type="email" placeholder="Email" value={addr.email} onChange={e => setAddr({...addr, email: e.target.value})}
                     className="px-3 py-2 border rounded-md" />
                   <input required placeholder="Namba ya simu" value={addr.phone} onChange={e => setAddr({...addr, phone: e.target.value})}
                     className="px-3 py-2 border rounded-md" />
