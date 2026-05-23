@@ -11,7 +11,7 @@
     }
   ],
   "vars": {
-    "JWT_SECRET": "change-me-in-production",
+   
     "STRIPE_SECRET_KEY": "",
     "STRIPE_ACCOUNT_ID": "acct_1TZpgkHCv76fvWSG",
     "FRONTEND_URL": "http://localhost:8080"
